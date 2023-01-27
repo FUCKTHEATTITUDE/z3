@@ -26,8 +26,7 @@ print(Style.BRIGHT + Fore.RESET +
       "Visit Site for More detail https://ramgadiya.com")
 colorama.init(autoreset=True)
 
-config = configparser.ConfigParser()
-config.read('config.ini')
+
 PROXY = [  "192.99.101.142:7497",
     "198.50.198.93:3128",
     "52.188.106.163:3128",
@@ -80,9 +79,9 @@ options.add_argument("--start-maximized")
 
 count = 0
 number = 3
-meet_code = config['ZOOM']['Meeting_ID']
-passcode = config['ZOOM']['Meeting_Pass']
-sec = config['ZOOM']['Member_Hold_Time']
+meet_code = '3069823402'
+passcode = 'WARP1d'
+sec = 120
 
 def driver_wait(driver, locator, by, secs=5, condition=EC.element_to_be_clickable):
     wait = WebDriverWait(driver=driver, timeout=secs)
