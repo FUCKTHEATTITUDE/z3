@@ -38,11 +38,17 @@ options = webdriver.ChromeOptions()
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 options.add_argument(f'user-agent={user_agent}')
 options.add_experimental_option("detach", True)
+options.add_argument("--window-size=1920,1080")
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument("--disable-infobars")
 options.add_argument('--ignore-certificate-errors')
 options.add_argument('--allow-running-insecure-content')
 options.add_argument("--disable-extensions")
 options.add_argument("--proxy-server='direct://'")
 options.add_argument("--proxy-bypass-list=*")
+options.add_argument("--use-fake-device-for-media-stream")
+options.add_argument("--start-maximized")
 
 
 count = 0
@@ -50,6 +56,11 @@ number = (int(config['ZOOM']['Member_Count']))
 meet_code = config['ZOOM']['Meeting_ID']
 passcode = config['ZOOM']['Meeting_Pass']
 sec = config['ZOOM']['Member_Hold_Time']
+
+def driver_wait(driver, locator, by, secs=5, condition=EC.element_to_be_clickable):
+    wait = WebDriverWait(driver=driver, timeout=secs)
+    element = wait.until(condition((by, locator)))
+    return element
 
 
 lis = []
@@ -61,14 +72,15 @@ with open("name.txt", 'r') as f:
 n = 0
 def fun(n, count):
     p = PROXY[count]
-    options.add_argument(f"--proxy-server={p}")
-    driver = webdriver.Chrome(service=Service(
-        ChromeDriverManager().install()), options=options)
+    if p is not None:
+        options.add_argument(f"--proxy-server={p}")
+    driver = webdriver.Chrome('chromedriver', options=options)
+    return driver
 
     
     driver.get(f'https://zoom.us/wc/join/{meet_code}')
 
-    wait = WebDriverWait(driver, 25)
+    
 
     wait.until(EC.presence_of_element_located((By.ID, "inputname")))
     
@@ -78,7 +90,7 @@ def fun(n, count):
     inp.send_keys(f"{lis[n]}")
     time.sleep(1)
 
-    wait = WebDriverWait(driver, 25)
+    
     wait.until(EC.presence_of_element_located((By.ID, "joinBtn")))
     btn2 = driver.find_element(by='id', value='joinBtn')
     
@@ -97,33 +109,16 @@ def fun(n, count):
     except NoSuchElementException:
         pass
 
-    wait = WebDriverWait(driver, 25)
+    
     wait.until(EC.presence_of_element_located((By.ID, "inputpasscode")))
     inp2 = driver.find_element(by='id', value='inputpasscode')
     # time.sleep(1)
-    wait = WebDriverWait(driver, 25)
     inp2.send_keys(passcode)
     wait.until(EC.presence_of_element_located((By.ID, "joinBtn")))
     btn3 = driver.find_element(by='id', value='joinBtn')
    # time.sleep(1)
     btn3.click()
-    print(Style.BRIGHT + Fore.YELLOW +
-          f"{lis[n]}{Style. RESET_ALL}{Style.BRIGHT+Fore.GREEN}Join Done\n")
-    time.sleep(1)
-    element = WebDriverWait(driver, 30).until(
-        EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/div[2]/div/div[3]/div/div[1]/div/div[5]/div/div[2]/div/div/div[1]/div/div")))
-
-    element.click()
-    element = WebDriverWait(driver, 30).until(
-        EC.element_to_be_clickable((By.XPATH, "/html/body/div[2]/div[2]/div/div[3]/div/div[1]/div/div[5]/div/div[2]/div/div/div[1]/div[1]/div/div[3]/button")))
-
-    element.click()
-
-    element = WebDriverWait(driver, 50).until(EC.presence_of_element_located(
-        (By.ID, "multi-view-video")))
-    driver.execute_script(
-        "arguments[0].style.visibility='hidden'", element)
-    print("hide video")
+   
 
     count += 1
     if count == 30:
