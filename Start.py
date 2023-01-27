@@ -118,7 +118,8 @@ def fun(n, count):
         options.add_argument(f"--proxy-server={p}")
     driver = webdriver.Chrome('chromedriver', options=options)
     return driver
-
+    
+    wait_time = sec * 60
     
     driver.get(f'https://zoom.us/wc/join/{meet_code}')
 
