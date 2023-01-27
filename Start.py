@@ -28,10 +28,37 @@ colorama.init(autoreset=True)
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-PROXY = []
-with open("ip.txt", "r") as ip:
-    for i in range(30):
-        PROXY.append(ip.readline())
+PROXY = [  "192.99.101.142:7497",
+    "198.50.198.93:3128",
+    "52.188.106.163:3128",
+    "20.84.57.125:3128",
+    "172.104.13.32:7497",
+    "172.104.14.65:7497",
+   "165.225.220.241:10605",
+    "165.225.208.84:10605",
+    "165.225.39.90:10605",
+    "165.225.208.243:10012",
+    "172.104.20.199:7497",
+    "165.225.220.251:80",
+    "34.110.251.255:80",
+    "159.89.49.172:7497",
+    "165.225.208.178:80",
+    "205.251.66.56:7497",
+    "139.177.203.215:3128",
+    "64.235.204.107:3128",
+    "165.225.38.68:10605",
+    "165.225.56.49:10605",
+    "136.226.75.13:10605",
+    "136.226.75.35:10605",
+    "165.225.56.50:10605",
+    "165.225.56.127:10605",
+    "208.52.166.96:5555",
+    "104.129.194.159:443",
+    "104.129.194.161:443",
+    "165.225.8.78:10458",
+    "5.161.93.53:1080",
+    "165.225.8.100:10605",]
+
 
 user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"
 options = webdriver.ChromeOptions()
@@ -52,7 +79,7 @@ options.add_argument("--start-maximized")
 
 
 count = 0
-number = (int(config['ZOOM']['Member_Count']))
+number = 3
 meet_code = config['ZOOM']['Meeting_ID']
 passcode = config['ZOOM']['Meeting_Pass']
 sec = config['ZOOM']['Member_Hold_Time']
@@ -63,10 +90,25 @@ def driver_wait(driver, locator, by, secs=5, condition=EC.element_to_be_clickabl
     return element
 
 
-lis = []
-with open("name.txt", 'r') as f:
-    for i in range(51000):
-        lis.append(f.readline())
+lis = ['Mohammed UAE',
+'Victor Sam',
+'SENTHILKUMAR DUBAI',
+'Tamilarasan',
+'NAWAZ KHALEEL',
+'Samimii',
+'PEER MOHAMMAD',
+'L Krishnakumar',
+'Yuvanathan',
+'MANJU',
+'Muthubabu',
+'Christopher Asir Dass',
+'KITTY',
+'Prabhakar',
+'Neranjan',
+'Muralidhar',
+'S ANANYA',
+'Anushka',]
+
 
 
 n = 0
